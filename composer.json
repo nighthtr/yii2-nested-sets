@@ -12,8 +12,7 @@
     ],
     "require": {
         "yiisoft/yii2": "*",
-        "creocoder/yii2-nested-sets": "*",
-        "bower-asset/nestable-2": "1.0"
+        "creocoder/yii2-nested-sets": "*"
     },
     "autoload": {
         "psr-4": {
