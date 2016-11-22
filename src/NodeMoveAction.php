@@ -4,49 +4,38 @@ namespace nighthtr\nestedsets;
 
 use Yii;
 use yii\base\Action;
-use yii\db\ActiveQuery;
+use yii\web\Response;
 
 class NodeMoveAction extends Action
 {
     public $modelName;
 
-    public function run($id = 0, $lft = 0, $rgt = 0, $parent_id = 0)
+    public function run($id, $target, $action)
     {
-        Yii::$app->response->format = 'json';
+        Yii::$app->response->format = Response::FORMAT_JSON;
 
         if ($this->modelName === null) {
             throw new \yii\base\InvalidConfigException("No 'modelName' supplied on action initialization.");
         }
 
         $model  = $this->modelName::findOne($id);
-        $lft    = $this->modelName::findOne($lft);
-        $rgt    = $this->modelName::findOne($rgt);
-        $parent = $this->modelName::findOne($parent_id);
+        $target = $this->modelName::findOne($target);
 
-        if ($model->treeAttribute && $parent === null && !$model->isRoot()) {
-            $model->moveNodeAsRoot();
-        } elseif (!$parent) {
-            if ($rgt) {
-                $model->insertBefore($rgt);
-            } elseif ($lft) {
-                $model->insertAfter($lft);
-            }
-        } else {
-            if ($rgt) {
-                $model->insertBefore($rgt);
-            } elseif ($lft) {
-                $model->insertAfter($lft);
-            } else {
-                $model->appendTo($parent);
-            }
+        switch ($action) {
+            case 'over':
+                return ['status' => $model->appendTo($target)];
+                break;
+
+            case 'before':
+                return ['status' => $model->insertBefore($target)];
+                break;
+
+            case 'after':
+                return ['status' => $model->insertAfter($target)];
+                break;
         }
 
-        return ['updated' => [
-            'id' => $model->id,
-            'depth' => $model->{$model->depthAttribute},
-            'lft' => $model->{$model->leftAttribute},
-            'rgt' => $model->{$model->rightAttribute},
-        ]];
+        return ['status' => false];
     }
 
 }
