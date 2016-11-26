@@ -13,12 +13,15 @@ use yii\web\JsExpression;
 class NestedSetsGrid extends \yii\base\Widget
 {
     public $model;
+    public $filterAttribute;
+    public $actions = [];
+
     public $options = [
         'class' => 'table table-condensed table-hover table-striped fancytree-fade-expander',
     ];
-    public $actions = [];
-    public $pluginEvents = [];
+
     public $pluginOptions = [];
+    public $pluginEvents = [];
 
     private $_defaultPluginOptions = [
         'extensions' => ['dnd', 'edit', 'glyph', 'table'],
@@ -55,7 +58,7 @@ class NestedSetsGrid extends \yii\base\Widget
         }
 
         if (!isset($this->actions['children'])) {
-            $this->actions['children'] = Url::to(['children']);
+            $this->actions['children'] = Url::to(['children', $this->filterAttribute => Yii::$app->request->get($this->filterAttribute)]);
         }
 
         if (!isset($this->actions['nodeMove'])) {

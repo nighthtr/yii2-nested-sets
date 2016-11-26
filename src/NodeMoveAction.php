@@ -9,6 +9,7 @@ use yii\web\Response;
 class NodeMoveAction extends Action
 {
     public $modelName;
+    public $treeAttribute;
 
     public function run($id, $target, $action)
     {
@@ -20,6 +21,10 @@ class NodeMoveAction extends Action
 
         $model  = $this->modelName::findOne($id);
         $target = $this->modelName::findOne($target);
+
+        if ($this->treeAttribute && ($model->$this->treeAttribute != $target->$this->treeAttribute)) {
+            return ['status' => false];
+        }
 
         switch ($action) {
             case 'over':
