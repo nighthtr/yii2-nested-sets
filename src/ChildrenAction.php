@@ -10,6 +10,7 @@ class ChildrenAction extends Action
 {
     public $modelName;
     public $filterAttribute;
+    public $filterAttributeValue;
 
     public function run($id = null)
     {
@@ -26,7 +27,7 @@ class ChildrenAction extends Action
         $query->where($id ? ['id' => $id] : ['depth' => 0]);
 
         if ($this->filterAttribute) {
-            $query->andWhere([$this->filterAttribute => Yii::$app->request->get($this->filterAttribute) ? Yii::$app->request->get($this->filterAttribute) : null]);
+            $query->andWhere([$this->filterAttribute => $this->filterAttributeValue ? $this->filterAttributeValue : null]);
         }
 
         if (($parent = $query->one()) !== null) {
