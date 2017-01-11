@@ -22,7 +22,7 @@ class NodeMoveAction extends Action
         $model  = $this->modelName::findOne($id);
         $target = $this->modelName::findOne($target);
 
-        if ($this->treeAttribute && ($model->$this->treeAttribute != $target->$this->treeAttribute)) {
+        if ($this->treeAttribute && ($model->{$this->treeAttribute} != $target->{$this->treeAttribute})) {
             return ['status' => false];
         }
 
