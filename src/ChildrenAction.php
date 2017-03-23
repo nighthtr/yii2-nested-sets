@@ -9,6 +9,7 @@ use yii\web\Response;
 class ChildrenAction extends Action
 {
     public $modelName;
+    public $titleAttribute = 'title';
     public $filterAttribute;
     public $filterAttributeValue;
 
@@ -36,7 +37,7 @@ class ChildrenAction extends Action
             foreach ($models as $key => $model) {
                 $children[] = [
                     'key' => $model->id,
-                    'title' => $model->name,
+                    'title' => $model->{$this->titleAttribute},
                     'lazy' => !$model->isLeaf(),
                 ];
             }

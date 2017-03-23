@@ -4,7 +4,7 @@ namespace nighthtr\nestedsets;
 
 class NestedSetsBehavior extends \creocoder\nestedsets\NestedSetsBehavior
 {
-    public $titleAttribute = 'name';
+    public $titleAttribute = 'title';
 
     public function treeItems($root = false, $depth = false)
     {

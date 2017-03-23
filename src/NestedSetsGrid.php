@@ -12,7 +12,8 @@ use yii\web\JsExpression;
 
 class NestedSetsGrid extends \yii\base\Widget
 {
-    public $model;
+    public $modelName;
+    public $titleAttribute = 'title';
     public $filterAttribute;
     public $actions = [];
 
@@ -130,7 +131,7 @@ class NestedSetsGrid extends \yii\base\Widget
 
     public function run()
     {
-        $model = new $this->model;
+        $model = new $this->modelName;
         $id = $this->options['id'];
         $options = Json::htmlEncode($this->pluginOptions);
         $view = $this->getView();
@@ -152,7 +153,7 @@ class NestedSetsGrid extends \yii\base\Widget
             <thead>
                 <tr>
                     <th>' . $model->getAttributeLabel('id') . '</th>
-                    <th>' . $model->getAttributeLabel('name') . '</th>
+                    <th>' . $model->getAttributeLabel($this->titleAttribute) . '</th>
                     <th class="action-column"></th>
                 </tr>
             </thead>
